@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAppContext } from '../store/appContext';
+import injectContext from '../store/appContext';
 
 const addContact = () => {
     const { dispatch } = useAppContext();
@@ -109,4 +110,4 @@ const addContact = () => {
     );
 };
 
-export default addContact;
+export default injectContext(AddContact);
