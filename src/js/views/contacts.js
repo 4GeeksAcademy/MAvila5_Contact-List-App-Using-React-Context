@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { useAppContext } from '../store/appContext';
 
 // Component to display the list of contacts

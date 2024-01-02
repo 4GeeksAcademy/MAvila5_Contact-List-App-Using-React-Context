@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useAppContext } from '../store/appContext';
 
 const addContact = () => {
@@ -35,11 +36,66 @@ const addContact = () => {
     };
 
     return (
-        <div className="add-contact-form">
+        <div className="add-contact-form container text-center mt-5">
             <h2>Add a New Contact</h2>
             {/* Bootstrap form */}
             <form onSubmit={handleFormSubmit}>
-                {/* ... (previous form fields) */}
+                <div className="mb-3">
+                    <label htmlFor="fullName" className="form-label">
+                        Full Name
+                    </label>
+                    <input
+                        type="text"
+                        className="form-control"
+                        id="fullName"
+                        name="fullName"
+                        value={formData.fullName}
+                        onChange={handleInputChange}
+                        required
+                    />
+                </div>
+                <div className="mb-3">
+                    <label htmlFor="email" className="form-label">
+                        Email
+                    </label>
+                    <input
+                        type="email"
+                        className="form-control"
+                        id="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleInputChange}
+                        required
+                    />
+                </div>
+                <div className="mb-3">
+                    <label htmlFor="phone" className="form-label">
+                        Phone
+                    </label>
+                    <input
+                        type="tel"
+                        className="form-control"
+                        id="phone"
+                        name="phone"
+                        value={formData.phone}
+                        onChange={handleInputChange}
+                        required
+                    />
+                </div>
+                <div className="mb-3">
+                    <label htmlFor="address" className="form-label">
+                        Address
+                    </label>
+                    <textarea
+                        className="form-control"
+                        id="address"
+                        name="address"
+                        value={formData.address}
+                        onChange={handleInputChange}
+                        required
+                    ></textarea>
+                </div>
+
                 <button type="submit" className="btn btn-primary">
                     Save
                 </button>
