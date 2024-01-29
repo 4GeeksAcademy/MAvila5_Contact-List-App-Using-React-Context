@@ -5,7 +5,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 		},
 		actions: {
 			// Action to load contacts from the API
-			loadSomeData: async () => {
+			fetchContacts: async () => {
 				try {
 					const response = await fetch('https://playground.4geeks.com/apis/fake/contact/');
 					if (response.ok) {
@@ -17,11 +17,54 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 
-			// Action to add a new contact
-			addContact: (contact) => {
-				const store = getStore();
-				const updatedContacts = [...store.contacts, contact];
-				setStore({ contacts: updatedContacts });
+			// Action to add a new contact via API
+			addContact: async (contactData) => {
+				try {
+					const response = await fetch('https://playground.4geeks.com/apis/fake/contact/', {
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json'
+						},
+						body: JSON.stringify(contactData)
+					});
+					if (response.ok) {
+						getActions().fetchContacts(); // Reload contacts after adding
+					}
+				} catch (error) {
+					console.error("Error adding a contact:", error);
+				}
+			},
+
+			// Action to update a contact via API
+			updateContact: async (contactId, updatedData) => {
+				try {
+					const response = await fetch(`https://playground.4geeks.com/apis/fake/contact/${contactId}`, {
+						method: 'PUT',
+						headers: {
+							'Content-Type': 'application/json'
+						},
+						body: JSON.stringify(updatedData)
+					});
+					if (response.ok) {
+						getActions().fetchContacts(); // Reload contacts after updating
+					}
+				} catch (error) {
+					console.error("Error updating contact:", error);
+				}
+			},
+
+			// Action to delete a contact via API
+			deleteContact: async (contactId) => {
+				try {
+					const response = await fetch(`https://playground.4geeks.com/apis/fake/contact/${contactId}`, {
+						method: 'DELETE'
+					});
+					if (response.ok) {
+						getActions().fetchContacts(); // Reload contacts after deleting
+					}
+				} catch (error) {
+					console.error("Error deleting contact:", error);
+				}
 			}
 		}
 	};

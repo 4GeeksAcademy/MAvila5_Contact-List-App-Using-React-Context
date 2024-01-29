@@ -1,14 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Context } from '../store/appContext';
 import { Link } from 'react-router-dom';
-import { useAppContext } from '../store/appContext';
-import injectContext from '../store/appContext';
 
-const addContact = () => {
-    const { dispatch } = useAppContext();
+const AddContact = () => {
+    const { actions } = useContext(Context);
+    const navigate = useNavigate();
 
     // State to manage form data
     const [formData, setFormData] = useState({
-        fullName: '',
+        full_name: '',
         email: '',
         phone: '',
         address: '',
@@ -21,19 +22,14 @@ const addContact = () => {
     };
 
     // Function to handle form submission
-    const handleFormSubmit = (e) => {
+    const handleFormSubmit = async (e) => {
         e.preventDefault();
 
-        // Dispatch action to add a new contact
-        dispatch({ type: 'addContact', payload: { ...formData, id: Date.now() } });
+        // addContact action to send the data to the API
+        await actions.addContact(formData);
 
-        // Reset the form after submission
-        setFormData({
-            fullName: '',
-            email: '',
-            phone: '',
-            address: '',
-        });
+        // Redirect to the contact list view after submission
+        navigate('/contacts');
     };
 
     return (
@@ -49,8 +45,8 @@ const addContact = () => {
                         type="text"
                         className="form-control"
                         id="fullName"
-                        name="fullName"
-                        value={formData.fullName}
+                        name="full_name"
+                        value={formData.full_name}
                         onChange={handleInputChange}
                         required
                     />
@@ -110,4 +106,4 @@ const addContact = () => {
     );
 };
 
-export default injectContext(AddContact);
+export default AddContact;
